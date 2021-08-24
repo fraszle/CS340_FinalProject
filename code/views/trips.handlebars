@@ -1,0 +1,93 @@
+{{>menu}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Trips</h1>
+            <p>Welcome to the trips portal! See what trips are upcoming and filter by feature.</p>
+            <p>Want to add a new trip? <a href="/customize-trip">Add a new trip here.</a></p>
+            {{#if message}}
+                <div class="alert alert-success" role="alert">
+                    {{message}}
+                </div>
+            {{/if}}
+            {{#if errorMessage}}
+                <div class="alert alert-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            {{/if}}
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <form action="/trips" method="get">
+                <div class="form-group">
+                    <h4>Filter by Feature</h4>
+                </div>
+                <div class="form-group">
+                    {{#if featureList}}
+                        {{#each featureList}}
+                            <div class="checkbox">
+                                <label>
+                                    {{#ifPresentInArray ../filterActive this.featureID }}
+                                        <input type="checkbox" id="{{this.featureID}}" name="feature[]" value="{{this.featureID}}" checked />
+                                        {{this.name}}
+                                    {{else}}
+                                        <input type="checkbox" id="{{this.featureID}}" name="feature[]" value="{{this.featureID}}" />
+                                        {{this.name}}
+                                    {{/ifPresentInArray}}
+                                </label>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+                <input type="submit" name="filter" value="Filter" class="btn btn-primary" />
+            </form>
+            <a href="/trips"><button type="button" class="btn btn-secondary">Reset</button></a>
+        </div>
+        <div class="col-md-9">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Price</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Features</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if tripList}}
+                        {{#each tripList}}
+                            <tr>
+                                <td>{{this.name}}</td>
+                                <td>{{this.city}}</td>
+                                <td>{{this.country}}</td>
+                                <td>${{this.price}}</td>
+                                <td>{{formatDate this.startDate "MM/DD/YYYY"}}</td>
+                                <td>{{formatDate this.endDate "MM/DD/YYYY"}}</td>
+                                <td>{{this.features}}</td>
+                                <td>
+                                    <a href="/trips?delete=1&tripID={{this.tripID}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                                    <a href="/customize-trip?edit=1&tripID={{this.tripID}}"><button type="button" class="btn btn-info">Update</button></a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <div class="alert alert-warning" role="alert">
+                            Sorry, no trips match your criteria.
+                        </div>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

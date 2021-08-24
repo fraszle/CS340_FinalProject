@@ -1,0 +1,112 @@
+{{>menu}}
+   <div class="container">
+      <div class="row">
+         <div class="col-sm-12">
+            {{#if studentInfo}}
+               <h1>Update Student</h1>
+               <p>Update a student.</p>
+            {{else}}
+               <h1>Add Student</h1>
+               <p>Add a student.</p>
+            {{/if}}
+
+            {{#if message}}
+               <div class="alert alert-success" role="alert">
+               {{message}}
+               </div>
+            {{/if}}
+            {{#if errorMessage}}
+                <div class="alert alert-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            {{/if}}
+            <br>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-12">
+            <form action="/customize-student" method="get">
+               <div class="row">
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label class="sr-only" for="name">Name</label>
+                        {{#if studentInfo}}
+                           <input type="text" id="name" name="name" class="form-control" value="{{studentInfo.studentName}}" required />
+                        {{else}}
+                           <input type="text" id="name" name="name" class="form-control" placeholder="Name*" required />
+                        {{/if}}
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label class="sr-only" for="university">University</label>
+                        {{#if studentInfo}}
+                           <input type="text" id="university" name="university" class="form-control" value="{{studentInfo.university}}" required />
+                        {{else}}
+                           <input type="text" id="university" name="university" class="form-control" placeholder="University*" required />
+                        {{/if}}
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label class="sr-only" for="phone">Phone</label>
+                        {{#if studentInfo}}
+                           <input type="text" id="phone" name="phone" class="form-control" value="{{studentInfo.phone}}" required />
+                        {{else}}
+                           <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone*" required />
+                        {{/if}}
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label class="sr-only" for="email">Email</label>
+                        {{#if studentInfo}}
+                           <input type="text" id="email" name="email" class="form-control" value="{{studentInfo.email}}" required />
+                        {{else}}
+                           <input type="text" id="email" name="email" class="form-control" placeholder="Email*" required />
+                        {{/if}}
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label for="staff">Associated Staff Member</label>
+                        <select class="form-control" id="staff" name="staff">
+                           <option value = NULL>None</option>
+                           {{#each staffList}}
+                              <option value = {{this.staffID}}> {{this.name}}</option>
+                           {{/each}}
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <label for="trip">Associated Trip</label>
+                        <select class="form-control" id="trip" name="trip">
+                           <option value = NULL>None</option>
+                           {{#each tripList}}
+                              <option value = {{this.tripID}}> {{this.name}}</option>
+                           {{/each}}
+                        </select>
+                     </div>
+                  </div>
+               </div>   
+               <div class="row">
+                  <div class="form-group">
+                     {{#if studentInfo}}
+                     <input type="hidden" name="studentID" value="{{studentInfo.studentID}}">
+                     <input type="submit" name="updateStudent" value="Update" class="btn btn-primary" />
+                     {{else}}
+                     <input type="submit" name="add" value="Add" class="btn btn-primary" />
+                     {{/if}}
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   {{#if studentInfo}}
+   <script defer>selectStaff({{studentInfo.staff}});</script>
+   <script defer>selectTrip({{studentInfo.trip}});</script>
+   {{/if}}
